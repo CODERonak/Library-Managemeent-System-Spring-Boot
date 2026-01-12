@@ -1,0 +1,17 @@
+package com.project.LibraryManagementSystem.dto.auth;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+
+@Data
+public class UserRequest {
+    @Email(message = "Email should be valid")
+    private String email;
+
+    @NotBlank(message = "Password cannot be blank")
+    private String password;
+
+    @NotBlank(message = "Role cannot be blank")
+    private String role;
+}
