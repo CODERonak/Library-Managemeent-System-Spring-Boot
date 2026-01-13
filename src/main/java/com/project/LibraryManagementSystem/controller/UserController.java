@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.LibraryManagementSystem.dto.auth.UserRequest;
-import com.project.LibraryManagementSystem.dto.auth.UserResponse;
+import com.project.LibraryManagementSystem.dto.auth.*;
 import com.project.LibraryManagementSystem.service.UserService;
 
 import jakarta.validation.Valid;
@@ -25,5 +24,11 @@ public class UserController {
     public ResponseEntity<UserResponse> createUser(@RequestBody @Valid UserRequest request) {
         UserResponse response = userService.createUser(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> loginUser(@RequestBody @Valid LoginRequest request) {
+        LoginResponse response = userService.login(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
