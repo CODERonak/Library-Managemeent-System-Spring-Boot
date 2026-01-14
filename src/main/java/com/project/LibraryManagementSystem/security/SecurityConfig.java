@@ -24,8 +24,14 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/auth/**", "/authors/get/{id}", "/authors/list", "/categories",
-                                "/books/get/{id}")
+                        .requestMatchers(
+                                "/auth/**",
+                                "/authors/get/{id}",
+                                "/authors/list",
+                                "/categories",
+                                "/books/all",
+                                "/books/get/{id}",
+                                "/books/search/{title}")
                         .permitAll()
                         .anyRequest().authenticated())
 

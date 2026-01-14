@@ -1,5 +1,7 @@
 package com.project.LibraryManagementSystem.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.project.LibraryManagementSystem.dto.book.*;
@@ -61,6 +63,17 @@ public class BookService {
         Book updatedBook = bookRepository.save(existingBook);
 
         return bookMapper.toResponse(updatedBook);
+    }
+
+    public Page<BookResponse> getAllBooks(Pageable pageable) {
+        Page<Book> books = bookRepository.findAll(pageable);
+        return books.map(bookMapper::toResponse);
+    }
+
+    public BookResponse getBookByTitle(String title) {
+        Book books = bookRepository.findByTitle(title)
+                .orElseThrow(() -> new NotFoundException("Book title " + title + " not found"));
+        return bookMapper.toResponse(books);
     }
 
     public void deleteBook(Long id) {
