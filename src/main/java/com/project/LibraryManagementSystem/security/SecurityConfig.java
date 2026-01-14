@@ -24,7 +24,9 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/auth/**", "/authors/get/{id}", "/authors/list", "/categories").permitAll()
+                        .requestMatchers("/auth/**", "/authors/get/{id}", "/authors/list", "/categories",
+                                "/books/get/{id}")
+                        .permitAll()
                         .anyRequest().authenticated())
 
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
