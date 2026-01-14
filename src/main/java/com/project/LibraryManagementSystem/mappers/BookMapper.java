@@ -8,9 +8,13 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface BookMapper {
-    Book bookRequestToBook(BookRequest bookRequest);
+    @Mapping(target = "id", ignore = true)
+    @Mapping(source = "authorId", target = "author.id")
+    @Mapping(source = "categoryId", target = "category.id")
+    @Mapping(target = "availableCopies", ignore = true)
+    Book toModel(BookRequest bookRequest);
 
     @Mapping(source = "author", target = "author")
     @Mapping(source = "category", target = "category")
-    BookResponse bookToBookResponse(Book book);
+    BookResponse toResponse(Book book);
 }
