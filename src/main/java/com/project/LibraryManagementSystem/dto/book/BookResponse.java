@@ -18,8 +18,8 @@ public class BookResponse {
 
     private CategoryResponse category;
 
-    private int availableCopies;
+    private Integer availableCopies;
 
-    private int totalCopies;
+    private Integer totalCopies;
 
 }

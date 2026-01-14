@@ -12,6 +12,7 @@ public class Book {
     private Long id;
 
     @Column(nullable = false)
+    @Lob
     private String title;
 
     @Column(nullable = false)
@@ -29,8 +30,7 @@ public class Book {
     private String isbn;
 
     @Column(nullable = false)
-    private String totalCopies;
+    private Integer totalCopies;
 
-    @Column(nullable = false)
-    private String availableCopies;
+    private Integer availableCopies;
 }
