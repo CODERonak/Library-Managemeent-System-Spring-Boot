@@ -49,18 +49,18 @@ public class BookService {
         Category category = categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new NotFoundException("Category id " + request.getCategoryId() + " not found"));
 
-        Book updateBook = bookRepository.findById(id)
+        Book existingBook = bookRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Book id " + id + " not found"));
 
-        updateBook.setTitle(request.getTitle());
-        updateBook.setIsbn(request.getIsbn());
-        updateBook.setDescription(request.getDescription());
-        updateBook.setTotalCopies(request.getTotalCopies());
-        updateBook.setAuthor(author);
-        updateBook.setCategory(category);
-        updateBook.setAvailableCopies(null);
-        updateBook = bookRepository.save(updateBook);
-        return bookMapper.toResponse(updateBook);
+        bookMapper.updateBookFromRequest(request, existingBook);
+
+        existingBook.setAuthor(author);
+        existingBook.setCategory(category);
+        existingBook.setAvailableCopies(null);
+
+        Book updatedBook = bookRepository.save(existingBook);
+
+        return bookMapper.toResponse(updatedBook);
     }
 
     public void deleteBook(Long id) {
