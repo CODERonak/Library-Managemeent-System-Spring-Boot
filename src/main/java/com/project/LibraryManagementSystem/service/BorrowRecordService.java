@@ -1,23 +1,26 @@
 package com.project.LibraryManagementSystem.service;
 
-import java.time.LocalDateTime;
-
-import org.springframework.stereotype.Service;
-
-import com.project.LibraryManagementSystem.dto.borrowrecord.*;
+import com.project.LibraryManagementSystem.dto.borrowrecord.BorrowRecordRequest;
+import com.project.LibraryManagementSystem.dto.borrowrecord.BorrowRecordResponse;
 import com.project.LibraryManagementSystem.exceptions.custom.NotFoundException;
 import com.project.LibraryManagementSystem.mappers.BorrowRecordMapper;
 import com.project.LibraryManagementSystem.model.entity.Book;
 import com.project.LibraryManagementSystem.model.entity.BorrowRecord;
 import com.project.LibraryManagementSystem.model.entity.User;
 import com.project.LibraryManagementSystem.model.enums.Status;
-import com.project.LibraryManagementSystem.repository.*;
-
+import com.project.LibraryManagementSystem.repository.BookRepository;
+import com.project.LibraryManagementSystem.repository.BorrowRecordRepository;
+import com.project.LibraryManagementSystem.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class BorrowRecordService {
+
     private final BorrowRecordRepository borrowRecordRepository;
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
@@ -50,5 +53,10 @@ public class BorrowRecordService {
         borrow.setStatus(Status.RETURNED);
         borrow = borrowRecordRepository.save(borrow);
         return borrowRecordMapper.toResponse(borrow);
+    }
+
+    public List<BorrowRecordResponse> getMyBorrowingHistory(Long borrowerId) {
+        List<BorrowRecord> borrowRecords = borrowRecordRepository.findAllByBorrowerId(borrowerId);
+        return borrowRecordMapper.toResponseList(borrowRecords);
     }
 }

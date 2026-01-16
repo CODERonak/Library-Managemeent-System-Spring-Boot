@@ -6,14 +6,12 @@ import com.project.LibraryManagementSystem.service.BorrowRecordService;
 
 import lombok.AllArgsConstructor;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/borrow")
@@ -33,6 +31,13 @@ public class BorrowRecordController {
     @PreAuthorize("hasRole('MEMBER')")
     public ResponseEntity<BorrowRecordResponse> returnBook(@PathVariable Long borrowerId) {
         BorrowRecordResponse response = borrowRecordService.returnBook(borrowerId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/history/{borrowerId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<BorrowRecordResponse>> getBorrowingHistory(@PathVariable Long borrowerId) {
+        List<BorrowRecordResponse> response = borrowRecordService.getMyBorrowingHistory(borrowerId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
