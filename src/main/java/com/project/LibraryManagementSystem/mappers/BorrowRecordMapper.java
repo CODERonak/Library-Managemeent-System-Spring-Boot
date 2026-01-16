@@ -7,10 +7,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface BorrowRecordMapper {
-  
-    @Mapping(target = "book", ignore = true)
-    @Mapping(target = "borrower", ignore = true)
-    BorrowRecord toModel(BorrowRecordResponse borrowRecordResponse);
 
     @Mapping(target = "book", source = "book")
     @Mapping(target = "borrower", source = "borrower")
