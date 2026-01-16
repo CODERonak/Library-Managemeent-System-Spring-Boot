@@ -10,7 +10,7 @@ A **Library Management System backend** built with **Spring Boot**, following **
 
 ## 🎯 Project Goals
 
-* Build a **secure, scalable backend** using Spring Boot
+* Build a **secure backend** using Spring Boot
 * Enforce **clean architecture and separation of concerns**
 * Ensure **data correctness under concurrent access**
 * Optimize performance using **indexing and pagination**
@@ -35,7 +35,6 @@ A **Library Management System backend** built with **Spring Boot**, following **
 * **Spring Web**
 * **Spring Data JPA**
 * **Spring Security (Session-Based)**
-* **Hibernate**
 * **PostgreSQL / MySQL**
 * **BCrypt Password Hashing**
 * **Spring Validation**
@@ -64,7 +63,7 @@ A **Library Management System backend** built with **Spring Boot**, following **
 | `/authors/**`    | ADMIN, LIBRARIAN        |
 | `/categories/**` | ADMIN, LIBRARIAN        |
 | `/books/**`      | Read: All, Write: ADMIN |
-| `/borrow/**`     | MEMBER                  |
+| `/borrow/**`     | MEMBER, ADMIN           |
 
 ---
 
@@ -74,7 +73,6 @@ A **Library Management System backend** built with **Spring Boot**, following **
 | ------ | ---------------- | ---------------------- | ------------- |
 | POST   | `/auth/register` | Register new user      | Public        |
 | POST   | `/auth/login`    | Login (session-based)  | Public        |
-| POST   | `/auth/logout`   | Logout current session | Authenticated |
 
 ---
 
@@ -103,7 +101,6 @@ A **Library Management System backend** built with **Spring Boot**, following **
 * Email (unique)
 * BCrypt-hashed password
 * Role-based access
-* Enabled flag
 * Creation timestamp
 
 ---
@@ -114,24 +111,24 @@ A **Library Management System backend** built with **Spring Boot**, following **
 
 ## 👤 Author Endpoints
 
-| Method | Endpoint        | Description      | Access |
-| ------ | --------------- | ---------------- | ------ |
-| POST   | `/authors`      | Create author    | ADMIN  |
-| PUT    | `/authors/{id}` | Update author    | ADMIN  |
-| DELETE | `/authors/{id}` | Delete author    | ADMIN  |
-| GET    | `/authors`      | List all authors | Public |
-| GET    | `/authors/{id}` | Get author by ID | Public |
+| Method | Endpoint               | Description      | Access |
+| ------ | -----------------------| ---------------- | ------ |
+| POST   | `/authors/add`         | Create author    | ADMIN  |
+| PUT    | `/authors/update/{id}` | Update author    | ADMIN  |
+| DELETE | `/authors/delete/{id}` | Delete author    | ADMIN  |
+| GET    | `/authors/list`        | List all authors | Public |
+| GET    | `/authors/get/{id}`    | Get author by ID | Public |
 
 ---
 
 ## 🏷 Category Endpoints
 
-| Method | Endpoint           | Description     | Access |
-| ------ | ------------------ | --------------- | ------ |
-| POST   | `/categories`      | Create category | ADMIN  |
-| PUT    | `/categories/{id}` | Update category | ADMIN  |
-| DELETE | `/categories/{id}` | Delete category | ADMIN  |
-| GET    | `/categories`      | List categories | Public |
+| Method | Endpoint                  | Description     | Access |
+| ------ | ------------------------- | --------------- | ------ |
+| POST   | `/categories/add`         | Create category | ADMIN  |
+| PUT    | `/categories/update/{id}` | Update category | ADMIN  |
+| DELETE | `/categories/delete/{id}` | Delete category | ADMIN  |
+| GET    | `/categories`             | List categories | Public |
 
 ---
 
@@ -141,14 +138,14 @@ A **Library Management System backend** built with **Spring Boot**, following **
 
 ## 📚 Book Endpoints
 
-| Method | Endpoint        | Description              | Access |
-| ------ | --------------- | ------------------------ | ------ |
-| POST   | `/books`        | Add new book             | ADMIN  |
-| PUT    | `/books/{id}`   | Update book              | ADMIN  |
-| DELETE | `/books/{id}`   | Delete book              | ADMIN  |
-| GET    | `/books`        | Paginated book list      | Public |
-| GET    | `/books/search` | Search by title/category | Public |
-| GET    | `/books/{id}`   | Get book details         | Public |
+| Method | Endpoint                | Description              | Access |
+| ------ | ----------------------- | ------------------------ | ------ |
+| POST   | `/books/add`            | Add new book             | ADMIN  |
+| PUT    | `/books/update/{id}`    | Update book              | ADMIN  |
+| DELETE | `/books/delete/{id}`    | Delete book              | ADMIN  |
+| GET    | `/books/all`            | Paginated book list      | Public |
+| GET    | `/books/search/{title}` | Search by title/category | Public |
+| GET    | `/books/get/{id}`       | Get book details         | Public |
 
 ### 🔎 Key Features
 
@@ -165,28 +162,12 @@ A **Library Management System backend** built with **Spring Boot**, following **
 
 ## 🔄 Borrowing Endpoints
 
-| Method | Endpoint                    | Description                | Access |
-| ------ | --------------------------- | -------------------------- | ------ |
-| POST   | `/borrow/{bookId}`          | Borrow a book              | MEMBER |
-| POST   | `/borrow/return/{borrowId}` | Return a borrowed book     | MEMBER |
-| GET    | `/borrow/my`                | View user's borrow history | MEMBER |
+| Method | Endpoint                        | Description                | Access |
+| ------ | ------------------------------- | -------------------------- | ------ |
+| POST   | `/borrow`                       | Borrow a book              | MEMBER |
+| POST   | `/borrow/return/{borrowerId}`   | Return a borrowed book     | MEMBER |
+| GET    | `/borrow/history/borrowerId`    | View user's borrow history | ADMIN  |
 
-### ⚙️ Concurrency Strategy
-
-* `@Transactional` service methods
-* Optimistic locking to prevent lost updates
-* Fail-fast validations
-
-**Guarantees**
-
-* ✅ ACID-compliant operations
-* ✅ Race-condition-safe borrowing
-
----
-
-## ⚙️ Observability & Monitoring
-
----
 
 ## 📊 Actuator Endpoints
 
